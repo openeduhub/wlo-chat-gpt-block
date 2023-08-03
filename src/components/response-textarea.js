@@ -1,12 +1,6 @@
-import { TextareaControl, Button } from '@wordpress/components';
+import { TextareaControl } from '@wordpress/components';
+import { getKey } from '../utils/responseTexts';
 import variables from '../variables.json';
-
-function getKey(selectValues) {
-	return Object.keys(selectValues)
-		.sort()
-		.map((key) => `${key}:${selectValues[key]}`)
-		.join('|');
-}
 
 export default function ResponseTextarea({ selectValues, responseTexts, setResponseTexts }) {
 	const valuePairs = Object.entries(selectValues).map(([key, value]) => {

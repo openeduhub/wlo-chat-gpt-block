@@ -27,6 +27,9 @@ import ResponseTextarea from './components/response-textarea';
 import { useState, useEffect } from '@wordpress/element';
 import variables from './variables.json';
 
+import { getChatGptResponseTexts } from './utils/chatGpt';
+import { getKey } from './utils/responseTexts';
+
 const initialSelectValues = variables.reduce((acc, variable) => {
 	acc[variable.key] = variable.options[0].value;
 	return acc;
@@ -49,9 +52,24 @@ export default function Edit({ attributes }) {
 		attributes.responseTexts = responseTexts;
 	}, [promptText, responseTexts]);
 
+	function sendChatGptRequests(currentPromptText) {
+		getChatGptResponseTexts(currentPromptText).then((responses) => {
+			setResponseTexts(
+				responses.reduce((acc, response) => {
+					acc[getKey(response.combination)] = response.response;
+					return acc;
+				}, {}),
+			);
+		});
+	}
+
 	return (
 		<div {...useBlockProps()}>
-			<PromptTextarea promptText={promptText} setPromptText={setPromptText} />
+			<PromptTextarea
+				promptText={promptText}
+				setPromptText={setPromptText}
+				sendChatGptRequests={sendChatGptRequests}
+			/>
 			<VariableSelector selectValues={selectValues} setSelectValues={setSelectValues} />
 			<ResponseTextarea
 				selectValues={selectValues}

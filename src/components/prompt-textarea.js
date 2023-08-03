@@ -10,11 +10,12 @@ const helpText =
 		.join(', ')} werden automatisch durch die jeweiligen Werte ersetzt. ` +
 	'Wenn Sie "Senden" klicken, werden die Antworten von ChatGPT eingeholt und überschreiben die vorigen Antworten inklusive aller eigener Anpassungen.';
 
-export default function PromptTextarea({ promptText, setPromptText }) {
+export default function PromptTextarea({ promptText, setPromptText, sendChatGptRequests }) {
 	const [currentPromptText, setCurrentPromptText] = useState(promptText);
 
 	function onClick() {
 		setPromptText(currentPromptText);
+		sendChatGptRequests(currentPromptText);
 	}
 
 	return (
