@@ -10,4 +10,14 @@
 		flex-wrap: wrap;
 		gap: 1em;
 	}
+	.prompt-textarea {
+		display: flex;
+		gap: 1em;
+		.textarea {
+			flex-grow: 1;
+		}
+		.send-button {
+			height: unset;
+		}
+	}
 }

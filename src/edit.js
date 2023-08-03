@@ -22,6 +22,14 @@ import { useBlockProps } from '@wordpress/block-editor';
 import './editor.scss';
 
 import VariableSelector from './components/variable-selector';
+import PromptTextarea from './components/prompt-textarea';
+import { useState, useEffect } from '@wordpress/element';
+import variables from './variables.json';
+
+const initialSelectValues = variables.reduce((acc, variable) => {
+	acc[variable.key] = variable.options[0].value;
+	return acc;
+}, {});
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -31,11 +39,17 @@ import VariableSelector from './components/variable-selector';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit() {
+export default function Edit({ attributes }) {
+	const [promptText, setPromptText] = useState(attributes.promptText);
+	const [selectValues, setSelectValues] = useState(initialSelectValues);
+	useEffect(() => {
+		attributes.promptText = promptText;
+	}, [promptText]);
+
 	return (
-		<div { ...useBlockProps() }>
-				<VariableSelector />
-				'My First Block – hello from the editor!' bar
+		<div {...useBlockProps()}>
+			<PromptTextarea promptText={promptText} setPromptText={setPromptText} />
+			<VariableSelector selectValues={selectValues} setSelectValues={setSelectValues} />
 		</div>
 	);
 }

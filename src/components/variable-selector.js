@@ -1,14 +1,7 @@
 import { SelectControl } from '@wordpress/components';
 import variables from '../variables.json';
-import { useState } from '@wordpress/element';
 
-const initialSelectValues = variables.reduce((acc, variable) => {
-	acc[variable.key] = variable.options[0].value;
-	return acc;
-}, {});
-
-export default function VariableSelector() {
-    const [selectValues, setSelectValues] = useState(initialSelectValues);
+export default function VariableSelector({ selectValues, setSelectValues }) {
 	const selects = variables.map((variable) => (
 		<SelectControl
 			label={variable.label}
