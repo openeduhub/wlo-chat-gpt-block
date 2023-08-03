@@ -18,6 +18,9 @@
 	"attributes": {
 		"promptText": {
 			"type": "string"
+		},
+		"responseTexts": {
+			"type": "object"
 		}
 	}
 }

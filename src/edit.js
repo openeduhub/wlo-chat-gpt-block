@@ -23,6 +23,7 @@ import './editor.scss';
 
 import VariableSelector from './components/variable-selector';
 import PromptTextarea from './components/prompt-textarea';
+import ResponseTextarea from './components/response-textarea';
 import { useState, useEffect } from '@wordpress/element';
 import variables from './variables.json';
 
@@ -41,15 +42,22 @@ const initialSelectValues = variables.reduce((acc, variable) => {
  */
 export default function Edit({ attributes }) {
 	const [promptText, setPromptText] = useState(attributes.promptText);
+	const [responseTexts, setResponseTexts] = useState(attributes.responseTexts ?? {});
 	const [selectValues, setSelectValues] = useState(initialSelectValues);
 	useEffect(() => {
 		attributes.promptText = promptText;
-	}, [promptText]);
+		attributes.responseTexts = responseTexts;
+	}, [promptText, responseTexts]);
 
 	return (
 		<div {...useBlockProps()}>
 			<PromptTextarea promptText={promptText} setPromptText={setPromptText} />
 			<VariableSelector selectValues={selectValues} setSelectValues={setSelectValues} />
+			<ResponseTextarea
+				selectValues={selectValues}
+				responseTexts={responseTexts}
+				setResponseTexts={setResponseTexts}
+			/>
 		</div>
 	);
 }

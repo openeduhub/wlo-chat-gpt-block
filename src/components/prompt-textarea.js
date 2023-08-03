@@ -1,6 +1,6 @@
 import { TextareaControl, Button } from '@wordpress/components';
 import variables from '../variables.json';
-import { useState, useEffect } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 
 const variableLabels = variables.map((variable) => variable.label);
 const helpText =
