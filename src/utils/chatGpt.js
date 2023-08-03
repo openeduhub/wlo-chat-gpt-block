@@ -56,10 +56,22 @@ function getKeyValueLabels(key, value) {
 	return { variableLabel: variable.label, optionLabel: option.label };
 }
 
-function getChatGptResponseText(prompt) {
-	return new Promise((resolve) => {
-		setTimeout(() => {
-			resolve('Echo! ' + prompt);
-		}, 500);
+async function getChatGptResponseText(prompt) {
+	const response = await fetch(ajaxurl, {
+		method: 'post',
+		body: getFormData({
+			action: 'wloChatGptPrompt',
+			prompt,
+		}),
 	});
+	const json = await response.json();
+	return json.responses[0];
+}
+
+function getFormData(data) {
+	const formData = new FormData();
+	for (const [key, value] of Object.entries(data)) {
+		formData.append(key, value);
+	}
+	return formData;
 }
