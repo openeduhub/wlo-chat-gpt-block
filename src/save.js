@@ -15,10 +15,17 @@ import { useBlockProps } from '@wordpress/block-editor';
  *
  * @return {WPElement} Element to render.
  */
-export default function save() {
+export default function save({ attributes }) {
+	const id = attributes.id ?? Math.random().toString(36).replace('0.', 'chat-gpt-block-');
 	return (
-		<p { ...useBlockProps.save() }>
-			{ 'My First Block – hello from the saved content!' }
-		</p>
+		<div
+			{...useBlockProps.save()}
+			id={id}
+			data-response-texts={JSON.stringify(attributes.responseTexts)}
+		>
+			<h2>Chat GPT Block</h2>
+			<p className="response-text"></p>
+			<script>{`jQuery(document).ready(() => registerChatGptBlock('${id}'))`}</script>
+		</div>
 	);
 }
